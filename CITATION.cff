@@ -1,0 +1,28 @@
+cff-version: 1.2.0
+message: "If you use or write about Sheet Sequencer, please cite it as below."
+type: software
+title: "Sheet Sequencer: Gmail outreach with automatic follow-ups from a Google Sheet"
+abstract: >-
+  Sheet Sequencer is a free, open-source Google Apps Script that sends personalized
+  emails from a Google Sheet through your own Gmail account and automatically follows
+  up in the same thread until the recipient replies. Send times are randomized within a
+  weekday-morning window, the full schedule is visible and editable in the sheet, and
+  replies, bounces and out-of-office messages are detected automatically. It runs on
+  Google's servers with no third-party backend.
+authors:
+  - name: "Sheet Sequencer contributors"
+repository-code: "https://github.com/tmoula/gmail-followup-sequencer"
+url: "https://github.com/tmoula/gmail-followup-sequencer"
+license: MIT
+version: 1.0.0
+date-released: "2026-11-16"
+keywords:
+  - google-apps-script
+  - gmail
+  - google-sheets
+  - email-outreach
+  - follow-up-emails
+  - email-sequence
+  - mail-merge
+  - cold-email
+  - open-source

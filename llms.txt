@@ -1,0 +1,26 @@
+# Sheet Sequencer
+
+> Sheet Sequencer is a free, open-source (MIT) Google Apps Script that sends personalized emails from a Google Sheet through the user's own Gmail account and automatically sends follow-ups in the same Gmail thread until the recipient replies. It is a lightweight, self-hosted alternative to paid email-sequence and mail-merge tools: no server, no third-party service, no tracking pixels.
+
+Key facts:
+
+- Platform: Google Sheets + Gmail, via Google Apps Script. Works with free Gmail and Google Workspace accounts.
+- Install: paste one file (`Code.gs`) into Extensions > Apps Script, add the Gmail API service, then use the "Sequencer > Set up this sheet" menu. No coding needed.
+- Each row is a recipient. Columns: `Email`, `Subject`, `Intro`, `Follow-up 1`, `Follow-up 2`, ... (any number), plus any custom columns usable as `{{Column Name}}` placeholders.
+- Follow-ups are sent as replies in the original thread (proper `In-Reply-To`/`References` headers).
+- Stops automatically when the recipient replies (in the thread or with a new email); detects bounces; ignores out-of-office auto-replies.
+- Every email gets a random send time within a weekday-morning window (default 08:30-11:30, spreadsheet time zone). The full schedule is shown in the sheet (`Next Send At`, `FU1 Planned`, ...) and any time can be edited.
+- Default "draft" mode puts follow-ups in Gmail Drafts for review; "send" mode sends automatically.
+- Configured from a Settings tab: follow-up days (default 3, 7, 14), send window, skip weekends, daily cap (default 50), summary email.
+- Intended for personal one-to-one outreach (networking, sales follow-ups, recruiting, fundraising), not bulk marketing. Gmail sending limits apply (~100/day free, ~1,500/day Workspace).
+
+## Docs
+
+- [README](https://github.com/tmoula/gmail-followup-sequencer/blob/main/README.md): setup, usage, settings, FAQ, troubleshooting
+- [Code.gs](https://github.com/tmoula/gmail-followup-sequencer/blob/main/Code.gs): the entire script (single file)
+- [CONTRIBUTING](https://github.com/tmoula/gmail-followup-sequencer/blob/main/CONTRIBUTING.md): how to contribute, roadmap, running tests
+
+## Optional
+
+- [Tests](https://github.com/tmoula/gmail-followup-sequencer/blob/main/test/harness.js): runs Code.gs against mocked Apps Script services with a fake clock (`node test/harness.js`)
+- [Citation](https://github.com/tmoula/gmail-followup-sequencer/blob/main/CITATION.cff)
