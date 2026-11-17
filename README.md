@@ -1,16 +1,24 @@
-# Sheet Sequencer
+<div align="center">
 
-**Personalized email outreach with automatic follow-ups, straight from a Google Sheet and your own Gmail.**
+<img src="docs/images/hero.svg" alt="Sheet Sequencer: Gmail outreach with automatic follow-ups from a Google Sheet. Stops when they reply." width="100%">
 
-Write one row per person. Sheet Sequencer sends your intro, then follows up a few days later *in the same Gmail
-thread*, and stops as soon as the person replies. It's free, it runs on Google's servers (your laptop can be off),
-and nothing ever leaves your Google account.
+[![tests](https://github.com/tmoula/gmail-followup-sequencer/actions/workflows/test.yml/badge.svg)](https://github.com/tmoula/gmail-followup-sequencer/actions/workflows/test.yml)
+[![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
+![Google Apps Script](https://img.shields.io/badge/Google%20Apps%20Script-single%20file-4285F4)
+[![PRs welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](CONTRIBUTING.md)
 
-```
- Intro            Follow-up 1        Follow-up 2         Follow-up 3
- Tue 9:23am  ──▶  Fri 10:47am   ──▶  Tue 9:02am     ──▶  Tue 10:06am
-                  (no reply yet)     (no reply yet)      ✋ they replied → sequence stops
-```
+</div>
+
+**Sheet Sequencer is a free, open-source Google Apps Script that sends personalized emails from a Google Sheet
+through your own Gmail, then automatically follows up in the same thread until the person replies.**
+
+Write one row per person. It sends your intro at a natural-looking morning time, follows up a few days later
+as a reply in the same Gmail conversation, and stops the moment they answer. It runs on Google's servers (your
+laptop can be off), needs no coding, and nothing ever leaves your Google account.
+
+**Contents:** [Features](#features) · [Setup](#setup-5-minutes-no-coding) · [Using it](#using-it) ·
+[Settings](#settings) · [How it works](#how-it-works) · [FAQ](#faq) · [Contributing](#contributing) ·
+[Citing](#citing)
 
 ## Features
 
@@ -25,6 +33,16 @@ and nothing ever leaves your Google account.
 - **Safe by default.** Daily send cap, no surprise late-night catch-up sends, empty placeholders block a send,
   and the example row is addressed to you.
 
+<p align="center">
+  <img src="docs/images/sheet.svg" alt="A campaign tab: one row per person, a colored Status for each (Replied, follow-up sent, intro scheduled, draft waiting, bounced), and the planned time of every email." width="100%">
+  <br><em>Your sheet is the dashboard: status and every planned send time, per person.</em>
+</p>
+
+<p align="center">
+  <img src="docs/images/thread.svg" alt="The recipient's Gmail: intro and follow-up in one thread; their reply is detected and the next follow-up is never sent." width="80%">
+  <br><em>What they see: one conversation. Once they reply, the rest of the sequence is cancelled.</em>
+</p>
+
 ## Setup (5 minutes, no coding)
 
 1. **Create a Google Sheet** (or open one you already use for contacts).
@@ -36,10 +54,14 @@ and nothing ever leaves your Google account.
    script, it shows *"Google hasn't verified this app"*: click **Advanced → Go to (your project) → Allow**.
    Then run **Set up this sheet** once more.
 
+<img src="docs/images/menu.svg" alt="The Sequencer menu: Set up this sheet, Schedule intros for next weekday morning, Send intros now, Preview, Pause all sending, Resume sending, Run check now." width="400" align="right">
+
 That's it. You now have a **Campaign** tab with an example row and a **Settings** tab.
 
 > **Why the permissions?** The script reads and sends email *as you*, from *your* account, so Google asks you to
 > approve it. There's no server and no third party involved. You can read every line of `Code.gs`.
+
+<br clear="right">
 
 ## Using it
 
@@ -102,20 +124,68 @@ Edit the **Settings** tab, no code changes needed:
 
 ## How it works
 
+```mermaid
+flowchart LR
+    A["📋 Row in your sheet"] --> B["✉️ Intro<br/>random morning time"]
+    B --> C{"Reply within<br/>N days?"}
+    C -- "yes" --> D["✅ Replied<br/>sequence stops"]
+    C -- "bounced" --> E["⚠️ Bounced<br/>sequence stops"]
+    C -- "no" --> F["↩️ Next follow-up<br/>same thread"]
+    F --> C
+    F -- "last one sent,<br/>still no reply" --> G["Done"]
+```
+
 - A trigger runs every 5 minutes and sends anything whose time has passed, so emails go out within about 5
   minutes of the time shown.
 - Before every follow-up it checks the thread (and your inbox) for a reply from that person.
 - Each gap is counted from the last email you *actually* sent, so if you send a draft late, later follow-ups move back.
 - If the scheduler was paused and an email is more than 30 minutes overdue, it moves to the next morning window
   instead of going out at an odd hour.
+- All times use the spreadsheet's time zone and are daylight-saving safe.
+
+## FAQ
+
+### How do I automatically send a follow-up email in Gmail if someone doesn't reply?
+
+Gmail has no built-in "follow up if no reply" feature. Sheet Sequencer adds it: put the person in a Google Sheet
+with an intro and one or more follow-ups, and the script sends each follow-up as a reply in the same thread after
+the number of days you choose, but only if they haven't replied.
+
+### Is it free? Is there a catch?
+
+It's free and MIT-licensed. There's no paid tier, account, or server. It runs inside your own Google account
+using Google Apps Script, so the only limits are Gmail's own sending limits.
+
+### Does it work with Google Workspace accounts?
+
+Yes. It works with free Gmail and Google Workspace. Workspace accounts get higher sending limits (about 1,500/day
+versus about 100/day). Some organizations restrict Apps Script; if so, ask your admin.
+
+### How is this different from a mail merge?
+
+A mail merge sends one personalized email to many people. Sheet Sequencer runs a *sequence* per person:
+an intro plus follow-ups over days or weeks, threaded, and stops automatically for anyone who replies.
+
+### Does it track opens or clicks?
+
+No. There are no tracking pixels or link rewriting. That keeps emails looking personal, helps deliverability, and
+means no data leaves your account.
+
+### Can I use it for cold email?
+
+It's built for personal, one-to-one outreach: people you met, warm intros, and considered cold emails to people you
+have a real reason to contact. Don't use it for bulk marketing or purchased lists.
+
+### Is my data sent anywhere?
+
+No. The script runs in your Google account, reads your sheet, and sends through your Gmail. There is no
+external server, and you can read every line of [`Code.gs`](Code.gs).
 
 ## Good practice and limits
 
 - Gmail limits how much you can send: about **100 emails/day** on a free account and **1,500/day** on Google
   Workspace. Keep the daily cap well under that.
-- This is built for **personal, one-to-one outreach** to people you have a reason to contact: people you met,
-  warm intros, considered cold emails. Don't use it for bulk marketing or purchased lists; it will hurt your
-  sender reputation and may break anti-spam laws (CAN-SPAM, GDPR, CASL).
+- Respect anti-spam laws (CAN-SPAM, GDPR, CASL) and people's time: if someone asks you to stop, type `stop`.
 - Emails are sent as plain text, without your Gmail signature. Put your sign-off in the body.
 
 ## Troubleshooting
@@ -134,20 +204,40 @@ Edit the **Settings** tab, no code changes needed:
 Paste the new `Code.gs` over the old one in Apps Script and save. Your sheet, settings and scheduled emails are
 kept. Then run any menu item once in case Google asks you to re-approve permissions.
 
-## Development
+## Contributing
 
-The script is a single file, [`Code.gs`](Code.gs), so it can be pasted into Apps Script directly.
-`appsscript.json` is the matching manifest (it enables the Gmail service) for people who use
-[clasp](https://github.com/google/clasp).
-
-Tests run the real `Code.gs` against mocked Apps Script services with a fake clock:
+Contributions are very welcome, from typo fixes to new features. Good first projects include **holiday
+skipping**, **HTML emails with your Gmail signature**, **per-person time zones**, and **translations**. See the
+roadmap in [CONTRIBUTING.md](CONTRIBUTING.md).
 
 ```sh
-node test/harness.js
-TZ=Asia/Tokyo node test/harness.js   # scheduling follows the sheet's time zone, not the machine's
+git clone https://github.com/tmoula/gmail-followup-sequencer.git
+cd gmail-followup-sequencer
+node test/harness.js   # Node 18+, no dependencies
 ```
 
-Issues and pull requests are welcome.
+The script is one file, [`Code.gs`](Code.gs). Tests run it against mocked Apps Script services with a fake
+clock, and CI runs them in several time zones on every pull request. `appsscript.json` is the manifest for
+[clasp](https://github.com/google/clasp) users.
+
+If Sheet Sequencer helped you, a ⭐ helps others find it.
+
+## Citing
+
+If you mention Sheet Sequencer in an article, course, or paper, use GitHub's **"Cite this repository"** button
+(from [`CITATION.cff`](CITATION.cff)) or:
+
+```bibtex
+@software{sheet_sequencer,
+  title   = {Sheet Sequencer: Gmail outreach with automatic follow-ups from a Google Sheet},
+  author  = {{Sheet Sequencer contributors}},
+  year    = {2026},
+  url     = {https://github.com/tmoula/gmail-followup-sequencer},
+  license = {MIT}
+}
+```
+
+A plain-language summary for AI assistants and search tools is in [`llms.txt`](llms.txt).
 
 ## License
 
