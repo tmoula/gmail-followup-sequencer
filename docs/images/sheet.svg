@@ -1,0 +1,59 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="960" height="330" viewBox="0 0 960 330" role="img" aria-labelledby="t d">
+  <title id="t">A campaign tab in Google Sheets</title>
+  <desc id="d">One row per person, with a Status column (Replied, follow-up sent, intro scheduled, draft waiting, bounced) and the planned send time of every email.</desc>
+  <style>
+    .bg{fill:#ffffff;stroke:#d0d7de}.bar{fill:#f6f8fa}.head{fill:#eef1f4}.grid{stroke:#e1e4e8}.ink{fill:#1f2328}.muted{fill:#59636e}
+    .g{fill:#dafbe1}.gT{fill:#116329}.b{fill:#ddf4ff}.bT{fill:#0550ae}.y{fill:#fff8c5}.yT{fill:#7d4e00}
+    .p{fill:#fbefff}.pT{fill:#6639ba}.r{fill:#ffebe9}.rT{fill:#a40e26}.dot{fill:#d0d7de}.hl{fill:#fff8c5}
+    text{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif}
+    @media (prefers-color-scheme: dark){
+      .bg{fill:#0d1117;stroke:#30363d}.bar{fill:#161b22}.head{fill:#1c2128}.grid{stroke:#21262d}.ink{fill:#e6edf3}.muted{fill:#9198a1}
+      .g{fill:#0f2a17}.gT{fill:#3fb950}.b{fill:#0c2d6b}.bT{fill:#79c0ff}.y{fill:#3b2e0a}.yT{fill:#e3b341}
+      .p{fill:#2d1a4a}.pT{fill:#d2a8ff}.r{fill:#3d1418}.rT{fill:#ff7b72}.dot{fill:#30363d}.hl{fill:#3b2e0a}
+    }
+  </style>
+  <rect class="bg" x="0.5" y="0.5" width="959" height="329" rx="12"/>
+  <!-- window bar -->
+  <path class="bar" d="M12.5 .5h935a12 12 0 0 1 12 12V44H.5V12.5a12 12 0 0 1 12-12z"/>
+  <circle class="dot" cx="24" cy="22" r="6"/><circle class="dot" cx="44" cy="22" r="6"/><circle class="dot" cx="64" cy="22" r="6"/>
+  <text class="ink" x="92" y="27" font-size="14" font-weight="600">Outreach</text>
+  <text class="muted" x="170" y="27" font-size="13">File   Edit   View   Insert   Format   Data   Extensions   Help</text>
+  <rect class="hl" x="604" y="11" width="92" height="24" rx="5"/>
+  <text class="ink" x="614" y="27" font-size="13" font-weight="600">Sequencer ▾</text>
+
+  <!-- header row -->
+  <rect class="head" x="1" y="44" width="958" height="34"/>
+  <g class="ink" font-size="12.5" font-weight="600">
+    <text x="16" y="66">First Name</text><text x="112" y="66">Company</text><text x="236" y="66">Status</text>
+    <text x="484" y="66">Next Send At</text><text x="642" y="66">FU1 Planned</text><text x="800" y="66">FU2 Planned</text>
+  </g>
+  <g class="grid" stroke-width="1">
+    <line x1="1" y1="78" x2="959" y2="78"/><line x1="1" y1="128" x2="959" y2="128"/><line x1="1" y1="178" x2="959" y2="178"/>
+    <line x1="1" y1="228" x2="959" y2="228"/><line x1="1" y1="278" x2="959" y2="278"/>
+    <line x1="100" y1="44" x2="100" y2="329"/><line x1="224" y1="44" x2="224" y2="329"/><line x1="472" y1="44" x2="472" y2="329"/>
+    <line x1="630" y1="44" x2="630" y2="329"/><line x1="788" y1="44" x2="788" y2="329"/>
+  </g>
+
+  <g font-size="12.5">
+    <!-- row 1 -->
+    <text class="ink" x="16" y="108">Maya</text><text class="ink" x="112" y="108">Northwind</text>
+    <rect class="g" x="234" y="92" width="150" height="24" rx="12"/><text class="gT" x="246" y="108" font-weight="600">✓ Replied Thu 11/19</text>
+    <text class="muted" x="484" y="108">-</text><text class="muted" x="642" y="108">-</text><text class="muted" x="800" y="108">-</text>
+    <!-- row 2 -->
+    <text class="ink" x="16" y="158">Jonah</text><text class="ink" x="112" y="158">Fieldstone</text>
+    <rect class="b" x="234" y="142" width="200" height="24" rx="12"/><text class="bT" x="246" y="158" font-weight="600">FU1 sent Fri 10:47 am</text>
+    <text class="ink" x="484" y="158">Tue Nov 24, 9:02 am</text><text class="muted" x="642" y="158">Fri Nov 20, 10:47 am</text><text class="ink" x="800" y="158">Tue Nov 24, 9:02 am</text>
+    <!-- row 3 -->
+    <text class="ink" x="16" y="208">Priya</text><text class="ink" x="112" y="208">Brightline</text>
+    <rect class="y" x="234" y="192" width="132" height="24" rx="12"/><text class="yT" x="246" y="208" font-weight="600">Intro scheduled</text>
+    <text class="ink" x="484" y="208">Tue Nov 17, 9:23 am</text><text class="ink" x="642" y="208">Fri Nov 20, 11:05 am</text><text class="ink" x="800" y="208">Wed Nov 25, 8:41 am</text>
+    <!-- row 4 -->
+    <text class="ink" x="16" y="258">Sam</text><text class="ink" x="112" y="258">Juniper</text>
+    <rect class="p" x="234" y="242" width="216" height="24" rx="12"/><text class="pT" x="246" y="258" font-weight="600">FU1 draft waiting in Gmail</text>
+    <text class="ink" x="484" y="258">Mon Nov 23, 10:12 am</text><text class="muted" x="642" y="258">Thu Nov 19, 9:37 am</text><text class="ink" x="800" y="258">Mon Nov 23, 10:12 am</text>
+    <!-- row 5 -->
+    <text class="ink" x="16" y="308">Leo</text><text class="ink" x="112" y="308">Acme Co</text>
+    <rect class="r" x="234" y="292" width="92" height="24" rx="12"/><text class="rT" x="246" y="308" font-weight="600">Bounced</text>
+    <text class="muted" x="484" y="308">-</text><text class="muted" x="642" y="308">-</text><text class="muted" x="800" y="308">-</text>
+  </g>
+</svg>
